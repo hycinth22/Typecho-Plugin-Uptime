@@ -42,7 +42,7 @@ class Uptime_Plugin implements Typecho_Plugin_Interface
     {
         /** 开始时间 */
         $start_time = new Typecho_Widget_Helper_Form_Element_Text(
-            'start_time', NULL, '2014-05-03',
+            'start_time', NULL, '2014-01-01 00:00:00',
             _t('开始时间'),
             _t('可以使用Javascript的Date构造参数接受的格式')
         );
@@ -87,10 +87,14 @@ class Uptime_Plugin implements Typecho_Plugin_Interface
 function startUptimeUpdate() {
     var start_time = '<?php echo $settings->start_time; ?>';
     var times = new Date().getTime() - new Date(start_time).getTime();
-    var days = Math.floor( times/(1000*3600*24) );
-    var hours = Math.floor( times%(1000*3600*24)/(3600*1000) );
-    var minutes = Math.floor( (times%(1000*3600*24)%3600)/(60*1000) );
-    var seconds = Math.floor( times%(1000*3600*24)/1000%60 );
+    times = Math.floor(times/1000); // milliseconds to seconds
+    var days = Math.floor( times/(3600*24) );
+    times %= 3600*24;
+    var hours = Math.floor( times/3600 );
+    times %= 3600;
+    var minutes = Math.floor( times/60 );
+    times %= 60;
+    var seconds = Math.floor( times/1 );
     $(".uptime").html("本站已运行" + days + "天" + hours + "小时" + minutes + "分" + seconds + "秒");
     setTimeout(startUptimeUpdate, 1000);
 }
