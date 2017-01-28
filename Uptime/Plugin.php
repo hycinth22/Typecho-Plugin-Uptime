@@ -4,7 +4,7 @@
  * 
  * @package Uptime
  * @author aprikyblue
- * @version 1.0.0
+ * @version 1.1.0
  * @link https://github.com/aprikyblue/Typecho-Plugin-Uptime/
  */
 class Uptime_Plugin implements Typecho_Plugin_Interface
