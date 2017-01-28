@@ -84,21 +84,19 @@ class Uptime_Plugin implements Typecho_Plugin_Interface
 ?>
 <!-- Uptime Start -->
 <script>
-function startUptimeUpdate() {
-    var start_time = '<?php echo $settings->start_time; ?>';
+setInterval(function(){
+	var start_time = '<?php echo $settings->start_time; ?>';
     var times = new Date().getTime() - new Date(start_time).getTime();
-    times = Math.floor(times/1000); // milliseconds to seconds
-    var days = Math.floor( times/(3600*24) );
-    times %= 3600*24;
-    var hours = Math.floor( times/3600 );
-    times %= 3600;
-    var minutes = Math.floor( times/60 );
-    times %= 60;
-    var seconds = Math.floor( times/1 );
+    times = Math.floor(times/1000); // convert total milliseconds into total seconds
+    var days = Math.floor( times/(60*60*24) ); //separate days
+    times %= 60*60*24; //subtract entire days
+    var hours = Math.floor( times/(60*60) ); //separate hours
+    times %= 60*60; //subtract entire hours
+    var minutes = Math.floor( times/60 ); //separate minutes
+    times %= 60; //subtract entire minutes
+    var seconds = Math.floor( times/1 ); // remainder is seconds
     $(".uptime").html("本站已运行" + days + "天" + hours + "小时" + minutes + "分" + seconds + "秒");
-    setTimeout(startUptimeUpdate, 1000);
-}
-startUptimeUpdate();
+}, 1000);
 </script>
 <!-- Uptime End -->
 <?php
