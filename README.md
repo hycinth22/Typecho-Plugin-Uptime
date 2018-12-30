@@ -1,8 +1,6 @@
 # Typecho-Plugin-Uptime
 A typecho plugin for Uptime
 
-[Demo](https://www.moew.xyz/)
-
 ## 介绍
 显示本站运行时间
 
