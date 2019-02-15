@@ -3,9 +3,9 @@
  * 博客运行时间显示插件
  * 
  * @package Uptime
- * @author aprikyblue
- * @version 1.0.1
- * @link https://github.com/aprikyblue/Typecho-Plugin-Uptime/
+ * @author inkedawn
+ * @version 1.1.0
+ * @link https://github.com/inkedawn/Typecho-Plugin-Uptime/
  */
 class Uptime_Plugin implements Typecho_Plugin_Interface
 {
@@ -108,7 +108,7 @@ class Uptime_Plugin implements Typecho_Plugin_Interface
 	}
 	setInterval(function(){
 		// timestamp is seconds in php but milliseconds in js, difference of 1000 times.
-		var start_timestamp= 1550232768000<?php echo strtotime($settings->start_time); ?>*1000; 
+		var start_timestamp = <?php echo strtotime($settings->start_time); ?>*1000; 
 		var duration = timeDuration(new Date(start_timestamp),new Date());
 		var text = "本站已运行" + duration.day + "天" + duration.hour + "小时" + duration.minute + "分" + duration.second + "秒";
 		document.querySelector(".uptime").innerText = text;
