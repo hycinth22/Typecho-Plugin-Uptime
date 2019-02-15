@@ -83,22 +83,37 @@ class Uptime_Plugin implements Typecho_Plugin_Interface
         $settings = $options->plugin('Uptime');
 ?>
 <!-- Uptime Start -->
-<script>
-setInterval(function(){
-    // timestamp is seconds in php but milliseconds in js, difference of 1000 times.
-    var start_timestamp = <?php echo strtotime($settings->start_time)*1000; ?>; 
-    var times = new Date().getTime() - new Date(start_timestamp).getTime();
-    times = Math.floor(times/1000); // convert total milliseconds into total seconds
-    var days = Math.floor( times/(60*60*24) ); //separate days
-    times %= 60*60*24; //subtract entire days
-    var hours = Math.floor( times/(60*60) ); //separate hours
-    times %= 60*60; //subtract entire hours
-    var minutes = Math.floor( times/60 ); //separate minutes
-    times %= 60; //subtract entire minutes
-    var seconds = Math.floor( times/1 ); // remainder is seconds
-    var text = "本站已运行" + days + "天" + hours + "小时" + minutes + "分" + seconds + "秒";
-    document.querySelector(".uptime").innerText = text;
-}, 1000);
+<script defer>
+(function(){
+	function timeDuration(time1, time2) {
+		var duration = time2.getTime() - time1.getTime();
+		// duration's unit is milliseconds
+
+		duration /= 1000;
+		// now, duration's unit is second
+		var second = Math.floor(duration % 60);  // 60 seconds become 1 minute, the remainder is second
+
+		duration /= 60;
+		// now, duration's unit is minute
+		var minute = Math.floor(duration % 60); // 60 minutes become 1 hour, the remainder is minute
+
+		duration /= 60;
+		// now, duration's unit is hour
+		var hour = Math.floor(duration % 24); // 24 hour become 1 day, the remainder is hour
+
+		duration /= 24;
+		// now, duration's unit is day
+		var day = Math.floor(duration);
+		return {day:day, hour:hour, minute:minute, second:second}
+	}
+	setInterval(function(){
+		// timestamp is seconds in php but milliseconds in js, difference of 1000 times.
+		var start_timestamp= 1550232768000<?php echo strtotime($settings->start_time); ?>*1000; 
+		var duration = timeDuration(new Date(start_timestamp),new Date());
+		var text = "本站已运行" + duration.day + "天" + duration.hour + "小时" + duration.minute + "分" + duration.second + "秒";
+		document.querySelector(".uptime").innerText = text;
+	});
+})();
 </script>
 <!-- Uptime End -->
 <?php
