@@ -86,23 +86,13 @@ class Uptime_Plugin implements Typecho_Plugin_Interface
 <script defer>
 (function(){
 	function timeDuration(time1, time2) {
-		var duration = time2.getTime() - time1.getTime();
-		// duration's unit is milliseconds
-
-		duration /= 1000;
-		// now, duration's unit is second
-		var second = Math.floor(duration % 60);  // 60 seconds become 1 minute, the remainder is second
-
+		var duration = ( time2.getTime() - time1.getTime() ) /1000; // its unit is second
+		var second = Math.floor(duration) % 60;  // 60 seconds become 1 minute
 		duration /= 60;
-		// now, duration's unit is minute
-		var minute = Math.floor(duration % 60); // 60 minutes become 1 hour, the remainder is minute
-
+		var minute = Math.floor(duration) % 60; // 60 minutes become 1 hour
 		duration /= 60;
-		// now, duration's unit is hour
-		var hour = Math.floor(duration % 24); // 24 hour become 1 day, the remainder is hour
-
+		var hour = Math.floor(duration) % 24; // 24 hour become 1 day
 		duration /= 24;
-		// now, duration's unit is day
 		var day = Math.floor(duration);
 		return {day:day, hour:hour, minute:minute, second:second}
 	}
